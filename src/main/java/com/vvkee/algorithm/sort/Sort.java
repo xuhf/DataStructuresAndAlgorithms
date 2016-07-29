@@ -6,7 +6,7 @@ public class Sort {
 
 	public static void main(String[] args) {
 		int[] s = { 10, 3, 2, 7, 6, 0, 8, 4, 1, 9, 5 };
-		insertSort(s);
+		shellSort(s);
 		System.out.println(Arrays.toString(s));
 	}
 
@@ -60,6 +60,44 @@ public class Sort {
 					break;
 				}
 			}
+		}
+	}
+
+	/**
+	 * 希尔排序
+	 * 
+	 * 原理：
+	 * 
+	 * 希尔排序也称之为递减增量排序，他是对插入排序的改进。在第二部插入排序中，我们知道，插入排序对于近似已排好序的序列来说，效率很高，
+	 * 可以达到线性排序的效率。但是插入排序效率也是比较低的，他一次只能将数据向前移一位。比如如果一个长度为N的序列，最小的元素如果恰巧在末尾，
+	 * 那么使用插入排序仍需一步一步的向前移动和比较，要N-1次比较和交换。
+	 * 
+	 * 希尔排序通过将待比较的元素划分为几个区域来提升插入排序的效率。这样可以让元素可以一次性的朝最终位置迈进一大步，然后算法再取越来越小的步长进行排序，
+	 * 最后一步就是步长为1的普通的插入排序的，但是这个时候，整个序列已经是近似排好序的，所以效率高。
+	 * 
+	 * 我们对下面数组进行排序的时候，首先以4为步长，这是元素分为了LMPT，EHSS，ELOX，AELR几个序列，
+	 * 我们对这几个独立的序列进行插入排序，排序完成之后，我们减小步长继续排序，最后直到步长为1，步长为1即为一般的插入排序，他保证了元素一定会被排序。
+	 * 
+	 * @param s
+	 */
+	public static void shellSort(int[] s) {
+		int length = s.length;
+		int h = 1;
+		if (h < length / 3) {
+			h = h * 3 + 1;
+		}
+		while (h >= 1) {
+			for (int i = 1; i < length; i++) {
+				for (int j = i; j >= h; j = j - h) {
+					if (s[j] < s[j - h]) {
+						swap(s, j, j - h);
+					} else {
+						break;
+					}
+				}
+			}
+			h = h / 3;
+			System.out.println("h is " + h);
 		}
 	}
 
